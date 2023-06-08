@@ -5,17 +5,18 @@ import Listanoticias from "./Listanoticias";
 function Formulario() {
   const [categoria, setCategoria] = useState("");
   const [arrayNoticias, setArrayNoticias] = useState([]);
+  const [pais, setPais] = useState("");
 
   useEffect(() => {
     consultarAPI();
-  }, [categoria]);
+  }, [categoria, pais]);
 
   const consultarAPI = async () => {
     try {
       const respuesta = await fetch(
         `https://newsdata.io/api/1/news?apikey=pub_239716e78b97b290380b8251513e029f94c32&category=${
           categoria || "technology"
-        }&language=es`
+        }&language=es, en&country=${pais || "ar"}`
       );
       const noticias = await respuesta.json();
       setArrayNoticias(noticias.results);
@@ -62,6 +63,44 @@ function Formulario() {
               <option value="top">Top noticias</option>
               <option value="tourism">Turismo</option>
               <option value="world">Mundo</option>
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group
+          as={Row}
+          className="justify-content-center align-items-center"
+        >
+          <Form.Label
+            column
+            sm={2}
+            md={3}
+            htmlFor="categoria"
+            className="p-0 text-center text-lg-end mb-2 mb-md-0"
+          >
+            Buscar por país:
+          </Form.Label>
+          <Col sm={10} md={4}>
+            <Form.Select
+              name={categoria}
+              id="pais"
+              onChange={(e) => {
+                setPais(e.target.value);
+              }}
+              value={categoria}
+            >
+              <option value="">Seleccionar país</option>
+              <option value="ar">Argentina</option>
+              <option value="bo">Bolivia</option>
+              <option value="br">Brasil</option>
+              <option value="cl">Chile</option>
+              <option value="co">Colombia</option>
+              <option value="ec">Ecuador</option>
+              <option value="us">Estados Unidos</option>
+              <option value="mx">Mexico</option>
+              <option value="py">Paraguay</option>
+              <option value="pe">Peru</option>
+              <option value="uy">Uruguay</option>
+              <option value="ve">Venezuela</option>
             </Form.Select>
           </Col>
         </Form.Group>
